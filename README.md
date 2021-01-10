@@ -5,4 +5,4 @@
 * **pingingServer.js** - server, sending GET and POST requests.
 
 ## HW2:
-* **serverHW2.js** - saying "hello" to all users, providing the necessary header. All original names are saved in json file.
+* **serverHW2.js** - saying "hello" to all users who provide the necessary header. All pairs name+id are saved in json file.
