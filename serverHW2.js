@@ -6,10 +6,11 @@ const fs = require("fs");
 const port = 8080;
 const dbName = "names.json";
 
-let names = [];
+let names = "";
+let db = [];
 if (fs.existsSync(dbName)) {
-    names = JSON.parse(fs.readFileSync(dbName, "utf8"));
-    console.log(">>> names read from file:", names);
+    db = JSON.parse(fs.readFileSync(dbName, "utf8"));
+    console.log(">>> db read from file:", db);
 }
 
 const requestHandler = (request, response) => {
@@ -18,16 +19,20 @@ const requestHandler = (request, response) => {
     if (request.headers['iknowyoursecret'] == "TheOwlsAreNotWhatTheySeem") {
         const queryObject = url.parse(request.url, true).query;
 
-        if (queryObject.name && !names.includes(`${queryObject.name}`)) {
-            names.push(queryObject.name);
-            fs.writeFile(dbName, JSON.stringify(names), (err) => {
+        if (queryObject.name) {
+            db.push({
+                name: queryObject.name,
+                ip: request.connection.remoteAddress
+            });
+            fs.writeFile(dbName, JSON.stringify(db), (err) => {
                 if (err) {
                     throw err;
                 }
             });
         }
-
-        resMsg = `Hello, ${names.join(", ")}!\n`;
+        
+        db.forEach(entry => names += `, ${entry.name}`);
+        resMsg = `Hello${names}!\n`;
     }
 
     response.end(resMsg);
