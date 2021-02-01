@@ -12,3 +12,6 @@
 
 ## HW4:
 * **serverHW4.js** - similar to HW3 but with MongoDB instead of json file.
+
+## HW5:
+* **serverHW5.js** - using passport, strategies and JWT.
